@@ -20,6 +20,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: '**/Dockerfile'
+        dockerfile: 'app/Dockerfile'
         tags: |
           $(tag)
