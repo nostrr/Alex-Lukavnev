@@ -1,16 +1,25 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+resources:
+- repo: self
 
 variables:
-  imageName: 'pipelines-javascript-docker'
+  tag: '$(Build.BuildId)'
 
-steps:
-- task: Docker@2
-  displayName: Build an image
-  inputs:
-    repository: $(imageName)
-    command: build
-    Dockerfile: app/Dockerfile
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
